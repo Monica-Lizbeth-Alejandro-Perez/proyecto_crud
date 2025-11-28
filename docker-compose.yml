@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+  nginx-gateway: 
+    build: ./nginx
+    ports:
+      - "80:80"
+  
+  api-service:
+    build: ./api-service
+    environment: 
+      - DB_HOST=postgres-db
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_NAME=crud_db
+    depends_on:
+      - postgres-db
+  
+  postgres-db:
+    image: postgres:15-alpine
+    environment: 
+      - POSTGRES_DB=crud_db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
