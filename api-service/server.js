@@ -13,11 +13,10 @@ app.use(express.json()); //Permite recibir JSON en POST/PUT
 
 // Conexión a PostgreSQL (usar DB_HOST desde docker-compose)
 const pool = new Pool({
-  host: process.env.DB_HOST || 'postgres-db',  //Servidor de BD
-  port: 5432,   //Puerto por defecto de PostgreSQL
-  database: process.env.POSTGRES_DB || 'crud_db',        //BD
-  user: process.env.POSTGRES_USER || 'postgres',         //Usuario
-  password: process.env.POSTGRES_PASSWORD || 'postgres'  //Contraseña
+  connectionString: process.env.DATABASE_URL, 
+  ssl: {
+    rejectUnauthorized: false
+}
 });
 
 // Creación de la tabla USERS 
